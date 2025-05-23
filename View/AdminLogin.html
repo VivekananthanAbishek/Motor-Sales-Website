@@ -19,7 +19,7 @@
     </div>
     <h1><span class="highlight">Admin</span> <span class="orange">login</span></h1>
 
-    <form id="loginForm">
+    <form id="loginForm" onsubmit="nextForm(event)">
       <div class="input-group">
         <label for="username">Username</label>
         <input type="text" id="username" />
@@ -31,7 +31,7 @@
 
       <div class="button-group">
         <button type="button" class="clear" onclick="clearForm()">Clear</button>
-        <button type="submit" class="login" onclick="nextForm()">Login</button>
+        <button type="submit" class="login">Login</button>
       </div>
     </form>
   </div>
@@ -42,14 +42,47 @@
             window.location.href = "index.html";
         }
 
-        function nextForm() {
-            window.location.href = "Employee.html";
-        }
-
         function clearForm() {
         document.getElementById('username').value = '';
         document.getElementById('password').value = '';
+
+         const error = document.getElementById('error-message');
+            if (error) error.innerText = '';
         }
+
+
+        function nextForm(event) {
+    event.preventDefault(); // Stop form from reloading the page
+
+    const username = document.getElementById('username').value.trim();
+    const password = document.getElementById('password').value.trim();
+
+    // Optional error message area
+    let error = document.getElementById('error-message');
+    if (!error) {
+      error = document.createElement('p');
+      error.id = 'error-message';
+      error.style.color = 'red';
+      error.style.fontSize = '25px';
+      document.querySelector('.button-group').before(error);
+    }
+
+    // Validation
+    if (username === 'admin' && password === 'admin123') {
+      error.innerText = '';
+      window.location.href = "Employee.html"; // Redirect on valid credentials
+    } else if (password === '' && password ==='') {
+      error.innerText = 'Please enter a valid Username and Password.';
+    } else if (username !== 'admin' && password !== 'admin123') {
+      error.innerText = 'Entered Username and Password are wrong.';
+    } else if (password === '' && password ==='') {
+      error.innerText = 'Please enter a valid Username and Password.';
+    } else if (username !== 'admin') {
+      error.innerText = 'Username is incorrect.';
+    } else {
+      error.innerText = 'Password is incorrect.';
+    }
+  }
   </script>
 </body>
 </html>
